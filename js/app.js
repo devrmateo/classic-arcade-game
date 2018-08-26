@@ -18,6 +18,17 @@ Enemy.prototype.update = function(dt) {
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
+    const canvasHeight = 606;
+    const canvasWidth = 505;
+    const numRows = 6;
+    const rowPadding = 30;
+    const rowHeight = canvasHeight / numRows - rowPadding;
+    const xCoordRow1 = rowHeight;
+    const xCoordRow2 = rowHeight * 2;
+    const xCoordRow3 = rowHeight * 3;
+    const xCoords = [xCoordRow1, xCoordRow2, xCoordRow3];
+    this.x = 0;
+    this.y = xCoords[Math.floor(Math.random() * xCoords.length)];
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
@@ -29,10 +40,23 @@ const Player = function() {
     this.sprite = 'images/char-boy.png';
 }
 
+Player.prototype.update = function() {
+
+}
+
+// Player.prototype.render = function() {
+
+// }
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+
+const enemy = new Enemy;
+const allEnemies = [];
+allEnemies.push(enemy);
+
+const player = new Player;
 
 
 
