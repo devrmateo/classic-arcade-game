@@ -22,7 +22,6 @@ var Enemy = function() {
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
-    this.x += this.speed * dt;
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
@@ -53,11 +52,22 @@ Player.prototype.render = function() {
 }
 
 Player.prototype.update = function() {
-
 }
 
-Player.prototype.handleInput = function() {
-
+Player.prototype.handleInput = function(input) {
+    switch(input) {
+        case 'left':
+            this.x -= 101;
+            break;
+        case 'right':
+            this.x += 101;
+            break;
+        case 'up':
+            this.y -= 100;
+            break;
+        case 'down':
+            this.y += 100;
+    }
 }
 
 // Now instantiate your objects.
