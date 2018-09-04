@@ -7,14 +7,14 @@ var Enemy = function() {
     // a helper we've provided to easily load images
     const canvasHeight = 606;
     const numRows = 6;
-    const rowPadding = 30;
+    const rowPadding = 28.5;
     const rowHeight = canvasHeight / numRows - rowPadding;
-    const xCoordRow1 = rowHeight;
-    const xCoordRow2 = rowHeight * 2;
-    const xCoordRow3 = rowHeight * 3;
-    const xCoords = [xCoordRow1, xCoordRow2, xCoordRow3];
+    const yCoordRow1 = rowHeight - 10; // Some extra padding to bring the enemy bug up just a bit so that it fits nicely in the first row.
+    const yCoordRow2 = rowHeight * 2;
+    const yCoordRow3 = rowHeight * 3;
+    const yCoords = [yCoordRow1, yCoordRow2, yCoordRow3];
     this.x = 0;
-    this.y = xCoords[Math.floor(Math.random() * xCoords.length)];
+    this.y = yCoords[Math.floor(Math.random() * yCoords.length)];
     this.speed = Math.random() * (500 - 200) + 200;
     this.sprite = 'images/enemy-bug.png';
 };
@@ -46,29 +46,51 @@ const Player = function() {
     const heightOfSprite = 171;  //Images all have a height of 171px.
     this.x = middle;
     this.y = canvasHeight - heightOfSprite;
+    this.step = 80; //This is the height of the actual boy character within the sprite image.
     this.sprite = 'images/char-boy.png';
+}
+
+Player.prototype.update = function() {
+    const playerYRow1 = 35; //player's y coordinate when in the top enemy row (row 1).
+    const addToRow1 = 27.5; //amount to add to player's y coord so that it equals enemy bug's y coord in row 1.
+    const playerYRow2 = 115; //player's y coord when in the second enemy row (row 2).
+    const addToRow2 = 30; //amount to add to player's y coord so that it equals enemy bug's y coord in row 2.
+    const playerYRow3 = 195; //player's y coordinate when in enemy row 3.
+    const addToRow3 = 22.5; //amount to add to player's y coord so that it equals enemy bug's y coord in row 3.
+
+    let updatedY;
+    if (this.y === playerYRow1) {
+        updatedY = this.y + addToRow1;
+    } else if (this.y === playerYRow2) {
+        updatedY = this.y + addToRow2;
+    } else if (this.y === playerYRow3) {
+        updatedY = this.y + addToRow3;
+    }
+
+    for(let enemy of allEnemies) {
+        if (updatedY === enemy.y) {
+            console.log('same row');
+        }
+    }
 }
 
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
-Player.prototype.update = function() {
-}
-
 Player.prototype.handleInput = function(input) {
     switch(input) {
         case 'left':
-            this.x -= 101;
+            this.x -= 101; //width of each column
             break;
         case 'right':
-            this.x += 101;
+            this.x += 101;  //width of each column
             break;
         case 'up':
-            this.y -= 100;
+            this.y -= this.step;
             break;
         case 'down':
-            this.y += 100;
+            this.y += this.step;
     }
 }
 
@@ -83,8 +105,6 @@ const allEnemies = [];
 allEnemies.push(enemy, secondEnemy, thirdEnemy);
 
 const player = new Player;
-
-
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
