@@ -42,10 +42,10 @@ Enemy.prototype.render = function() {
 const Player = function() {
     const canvasHeight = 606;
     const widthOfCanvas = 505;
-    const middle = widthOfCanvas / 2 - 50; //Each image is approximately 100px; half this to position the leftmost edge at the proper x-coordinate in order to center player character.
-    const heightOfSprite = 171;  //Images all have a height of 171px.
+    const middle = widthOfCanvas / 2 - 50.5; //Each image is 101px wide; half this to position the leftmost edge at the proper x-coordinate in order to center player character.
+    this.height = 171;  //Images all have a height of 171px.
     this.x = middle;
-    this.y = canvasHeight - heightOfSprite;
+    this.y = canvasHeight - this.height;
     this.step = 80; //This is the height of the actual boy character within the sprite image.
     this.sprite = 'images/char-boy.png';
 }
@@ -68,9 +68,8 @@ Player.prototype.update = function() {
     }
 
     for(let enemy of allEnemies) {
-        if (updatedY === enemy.y) {
-            console.log('same row');
-        }
+      if (this.x - 30 < enemy.x && enemy.x < this.x + 30 && enemy.y === updatedY) // Add a buffer of 60px in either direction so that the boy character sprite registers a collision when it comes into contact with the enemy bug sprite.
+        console.log(this.x, this.y, enemy.x, enemy.y);
     }
 }
 
