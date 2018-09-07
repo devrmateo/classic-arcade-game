@@ -1,3 +1,8 @@
 body {
     text-align: center;
 }
+
+.close {
+  float: right;
+  margin-bottom: 1em;
+}

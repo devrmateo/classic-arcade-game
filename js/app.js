@@ -1,3 +1,5 @@
+'use strict'; //use strict mode
+
 // Enemies our player must avoid
 var Enemy = function() {
     // Variables applied to each of our instances go here,
@@ -12,9 +14,11 @@ var Enemy = function() {
     const yCoordRow1 = rowHeight - 10; // Some extra padding to bring the enemy bug up just a bit so that it fits nicely in the first row.
     const yCoordRow2 = rowHeight * 2;
     const yCoordRow3 = rowHeight * 3;
-    const yCoords = [yCoordRow1, yCoordRow2, yCoordRow3];
+    this.yCoords = [yCoordRow1, yCoordRow2, yCoordRow3];
     this.x = 0;
-    this.y = yCoords[Math.floor(Math.random() * yCoords.length)];
+    this.xStart = 0;
+    this.y = this.yCoords[Math.floor(Math.random() * this.yCoords.length)];
+    this.yStart = this.y;
     this.speed = Math.random() * (500 - 200) + 200;
     this.sprite = 'images/enemy-bug.png';
 };
@@ -23,11 +27,13 @@ var Enemy = function() {
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
     this.x += this.speed * dt;
-
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
-};
+    const widthOfCanvas = 505;
+    //When enemy bugs reach the edge of the canvas, send them back to the left edge to cross again, in random rows.
+    if (this.x >= widthOfCanvas) {
+        this.x = 0;
+        this.y = this.yCoords[Math.floor(Math.random() * this.yCoords.length)];
+    }
+}
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
@@ -59,8 +65,8 @@ Player.prototype.update = function() {
     const addToRow2 = 30; //amount to add to player's y coord so that it equals enemy bug's y coord in row 2.
     const playerYRow3 = 195; //player's y coordinate when in enemy row 3.
     const addToRow3 = 22.5; //amount to add to player's y coord so that it equals enemy bug's y coord in row 3.
-
     let updatedY;
+
     if (this.y === playerYRow1) {
         updatedY = this.y + addToRow1;
     } else if (this.y === playerYRow2) {
@@ -73,6 +79,14 @@ Player.prototype.update = function() {
       if (this.x - 30 < enemy.x && enemy.x < this.x + 30 && enemy.y === updatedY) // Add a buffer of 60px in either direction so that the boy character sprite registers a collision when it comes into contact with the enemy bug sprite.
         this.reset();
     }
+
+    const waterYCoord = 35; // y coordinate at which player sprite reaches water.
+    //If y coordinate is less than 35, she has reached the water.  Show dialog to congratulate and prompt to play again.  Reset the player sprite to starting position.
+    if (this.y < waterYCoord) {
+        openDialog();
+        this.reset();
+        }
+
 }
 
 Player.prototype.render = function() {
@@ -99,6 +113,26 @@ Player.prototype.reset = function() {
     //Return the player image sprite to the starting position.
     this.x = this.xStart;
     this.y = this.yStart;
+}
+
+function openDialog() {
+    const dialog = document.querySelector('dialog');
+    const closeButton = document.querySelector('.close');
+    const playAgainButton = document.querySelector('.play');
+    dialogPolyfill.registerDialog(dialog);
+    // Now dialog acts like a native <dialog>.
+
+    dialog.showModal();
+
+    closeButton.addEventListener('click', function () {
+        dialog.close();
+    });
+
+    playAgainButton.addEventListener('click', function() {
+        dialog.close();
+    });
+
+
 }
 
 // Now instantiate your objects.

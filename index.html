@@ -4,8 +4,17 @@
     <meta charset="UTF-8">
     <title>Effective JavaScript: Frogger</title>
     <link rel="stylesheet" href="css/style.css">
+    -<link rel="stylesheet" href="css/dialog-polyfill.css">-
 </head>
 <body>
+
+    <dialog>
+      <span class="close">&times;</span>
+      <h3>Congratulations!</h3>
+      <button class="play">Play Again</button>
+    </dialog>
+
+    <script src="js/dialog-polyfill.js"></script>
     <script src="js/resources.js"></script>
     <script src="js/app.js"></script>
     <script src="js/engine.js"></script>
