@@ -79,7 +79,7 @@ Player.prototype.update = function() {
     }
 
     for(let enemy of allEnemies) {
-      if (this.x - 30 < enemy.x && enemy.x < this.x + 30 && enemy.y === updatedY) // Add a buffer of 60px in either direction so that the boy character sprite registers a collision when it comes into contact with the enemy bug sprite.
+      if (this.x - 65 < enemy.x && enemy.x < this.x + 65 && enemy.y === updatedY) // Add a buffer of 65px in either direction so that the boy character sprite registers a collision when it comes into contact with the enemy bug sprite.
         this.reset();
     }
 
@@ -88,8 +88,7 @@ Player.prototype.update = function() {
     if (this.y < waterYCoord) {
         openDialog();
         this.reset();
-        }
-
+    }
 }
 
 Player.prototype.render = function() {
