@@ -27,10 +27,12 @@ var Enemy = function() {
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
     this.x += this.speed * dt;
+
     const widthOfCanvas = 505;
     //When enemy bugs reach the edge of the canvas, send them back to the left edge to cross again, in random rows.
     if (this.x >= widthOfCanvas) {
         this.x = 0;
+        this.x += this.speed * dt;
         this.y = this.yCoords[Math.floor(Math.random() * this.yCoords.length)];
     }
 }
