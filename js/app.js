@@ -57,6 +57,7 @@ const Player = function() {
     this.y = canvasHeight - this.height;
     this.yStart = canvasHeight - this.height;
     this.step = 80; //This is the height of the actual boy character within the sprite image.
+    this.shuffle = 101; //This is the width of each of the five columns, and therefore is equal to the distance that the player should "shuffle" to either the right or left.
     this.sprite = 'images/char-boy.png';
 }
 
@@ -89,6 +90,8 @@ Player.prototype.update = function() {
         this.reset();
         }
 
+    console.log(this.x, this.y);
+
 }
 
 Player.prototype.render = function() {
@@ -96,18 +99,25 @@ Player.prototype.render = function() {
 }
 
 Player.prototype.handleInput = function(input) {
+
     switch(input) {
         case 'left':
-            this.x -= 101; //width of each column
+            if (this.x > 0) {
+                this.x -= this.shuffle;
+            }
             break;
         case 'right':
-            this.x += 101;  //width of each column
+            if (this.x < 404) {
+               this.x += this.shuffle;
+            }
             break;
         case 'up':
             this.y -= this.step;
             break;
         case 'down':
-            this.y += this.step;
+            if (this.y < 435) {
+                this.y += this.step;
+            }
     }
 }
 
