@@ -12,7 +12,7 @@ In order to run this game on your local computer, do the following:
 1. Point your browser to [https://github.com/webdevmateo/Classic-Arcade-Game.git](https://github.com/webdevmateo/Classic-Arcade-Game.git).
 2. Once there, click on the green "Clone or download" button.
 3. Then you can either clone the repository or download a zip file to your local computer.
-4. When you have local access, open up `index.html` and follow the instructions above.
+4. When you have local access, open up `index.html` in your preferred browser and follow the instructions above.
 
 # Dependencies
 ___
