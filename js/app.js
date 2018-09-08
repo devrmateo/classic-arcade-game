@@ -90,8 +90,6 @@ Player.prototype.update = function() {
         this.reset();
         }
 
-    console.log(this.x, this.y);
-
 }
 
 Player.prototype.render = function() {
